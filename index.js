@@ -14,7 +14,7 @@
 // //top left coordinates(x,y) followed by 100 px wide and 50 px high
 // context.fillRect(10, 10, 100, 50);
 
-//LINES AND SURFACES
+//############################LINES AND SURFACES
 
 // let cx = document.querySelector("canvas").getContext("2d");
 //   cx.strokeStyle = "blue";
@@ -22,7 +22,7 @@
 //   cx.lineWidth = 5;
 //   cx.strokeRect(135, 5, 50, 50);
 
-//PATHS
+//######################PATHS
 //path is a sequence of lines
 
 // let cx = document.querySelector("canvas").getContext("2d");
@@ -46,7 +46,7 @@
 // // cx.stroke();
 // cx.fill();
 
-//CURVES
+//###################CURVES
 //QUADRATIC CURVE
 // let cx = document.querySelector("canvas").getContext("2d");
 // cx.beginPath();
@@ -77,3 +77,31 @@
 // //THERE IS A LINE CONNECTING THESE TWO ARCS BECAUSE THEY ARE STILL THE SAME PATH
 // cx.arc(150, 50, 40, 0, 0.5 * Math.PI);
 // cx.stroke();
+
+//###############PIE CHART
+
+const results = [
+  {name: "Satisfied", count: 1043, color: "lightblue"},
+  {name: "Neutral", count: 563, color: "lightgreen"},
+  {name: "Unsatisfied", count: 510, color: "pink"},
+  {name: "No comment", count: 175, color: "silver"}
+];
+
+cx = document.querySelector("canvas").getContext("2d");
+let total = results.reduce((sum, {count}) => sum + count, 0)
+//Start at the top
+//angle starts at -1/2 where it would normally start
+let currentAngle = -0.5 * Math.PI;
+console.log(currentAngle)
+for(let result of results) {                //this is 2π
+  let sliceAngle = (result.count/ total) * (2 * Math.PI);
+  console.log(sliceAngle)
+  cx.beginPath();
+  //center=100,100, radius=100
+  //from current angle, clockwise by slice's angle
+  cx.arc(100,100,100, currentAngle, currentAngle + sliceAngle);
+  currentAngle += sliceAngle;
+  cx.lineTo(100, 100);
+  cx.fillStyle = result.color;
+  cx.fill();
+}

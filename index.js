@@ -80,28 +80,53 @@
 
 //###############PIE CHART
 
-const results = [
-  {name: "Satisfied", count: 1043, color: "lightblue"},
-  {name: "Neutral", count: 563, color: "lightgreen"},
-  {name: "Unsatisfied", count: 510, color: "pink"},
-  {name: "No comment", count: 175, color: "silver"}
-];
+// const results = [
+//   {name: "Satisfied", count: 1043, color: "lightblue"},
+//   {name: "Neutral", count: 563, color: "lightgreen"},
+//   {name: "Unsatisfied", count: 510, color: "pink"},
+//   {name: "No comment", count: 175, color: "silver"}
+// ];
+//
+// let cx = document.querySelector("canvas").getContext("2d");
+// let total = results.reduce((sum, {count}) => sum + count, 0)
+// //Start at the top
+// //angle starts at -1/2 where it would normally start
+// let currentAngle = -0.5 * Math.PI;
+// console.log(currentAngle)
+// for(let result of results) {                //this is 2π
+//   let sliceAngle = (result.count/ total) * (2 * Math.PI);
+//   console.log(sliceAngle)
+//   cx.beginPath();
+//   //center=100,100, radius=100
+//   //from current angle, clockwise by slice's angle
+//   cx.arc(100,100,100, currentAngle, currentAngle + sliceAngle);
+//   currentAngle += sliceAngle;
+//   cx.lineTo(100, 100);
+//   cx.fillStyle = result.color;
+//   cx.fill();
+// }
 
-cx = document.querySelector("canvas").getContext("2d");
-let total = results.reduce((sum, {count}) => sum + count, 0)
-//Start at the top
-//angle starts at -1/2 where it would normally start
-let currentAngle = -0.5 * Math.PI;
-console.log(currentAngle)
-for(let result of results) {                //this is 2π
-  let sliceAngle = (result.count/ total) * (2 * Math.PI);
-  console.log(sliceAngle)
-  cx.beginPath();
-  //center=100,100, radius=100
-  //from current angle, clockwise by slice's angle
-  cx.arc(100,100,100, currentAngle, currentAngle + sliceAngle);
-  currentAngle += sliceAngle;
-  cx.lineTo(100, 100);
-  cx.fillStyle = result.color;
-  cx.fill();
-}
+//#######################  TEXT
+// let cx = document.querySelector("canvas").getContext("2d");
+// cx.font = '28px Georgia';
+// cx.fillStyle = 'fuchsia';
+// //last two arguments are fillText and strokeText
+// cx.fillText("I can draw text too!", 10, 50)
+
+//####################### IMAGES
+
+let cx = document.querySelector("canvas").getContext("2d");
+let img = document.createElement("img");
+img.src = "img/player_big.png";
+let spriteW = 48, spriteH = 100;
+img.addEventListener("load", () => {
+  let cycle = 0;
+  setInterval(()=> {
+    cx.clearRect(0,0,spriteW, spriteH);
+    cx.drawImage(img, //source rectangle
+    cycle * spriteW, 0, spriteW, spriteH,
+    //destination rectangle
+                  0, 0, spriteW, spriteH);
+                  cycle = (cycle+1) % 8;
+  }, 120)
+})

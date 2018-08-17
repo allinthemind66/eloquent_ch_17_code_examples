@@ -115,18 +115,57 @@
 
 //####################### IMAGES
 
+// let cx = document.querySelector("canvas").getContext("2d");
+// let img = document.createElement("img");
+// img.src = "img/player.png";
+// let spriteW = 24, spriteH = 30;
+// img.addEventListener("load", () => {
+//   let cycle = 0;
+//   setInterval(()=> {
+//     cx.clearRect(0,0,spriteW, spriteH);
+//     cx.drawImage(img, //source rectangle x,y, width and height
+//     cycle * spriteW, 0, spriteW, spriteH,
+//     //destination rectangle on which to be copied
+//                   0, 0, spriteW, spriteH);
+//                   cycle = (cycle+1) % 8;
+//   }, 100)
+// })
+
+// ######################## TRANSFORMATION
+
+// let cx = document.querySelector("canvas").getContext("2d");
+// cx.scale(3, .5);
+// cx.beginPath();
+// cx.arc(50, 50, 40, 0, 7);
+// cx.lineWidth = 3;
+// cx.stroke();
+
+// function flipHorizontally(context, around) {
+//   context.translate(around, 0);
+//   context.scale(-1,1);
+//   context.translate(-around, 0);
+// }
+
+// let cx = document.querySelector("canvas").getContext("2d");
+// let img = document.createElement("img");
+// img.src = "img/player.png";
+// let spriteW = 24, spriteH = 30;
+// img.addEventListener("load", () => {
+//   flipHorizontally(cx, 100 + spriteW/2);
+//   cx.drawImage(img, 0, 0, spriteW, spriteH, 100, 0, spriteW, spriteH);
+// });
+
 let cx = document.querySelector("canvas").getContext("2d");
-let img = document.createElement("img");
-img.src = "img/player_big.png";
-let spriteW = 48, spriteH = 100;
-img.addEventListener("load", () => {
-  let cycle = 0;
-  setInterval(()=> {
-    cx.clearRect(0,0,spriteW, spriteH);
-    cx.drawImage(img, //source rectangle
-    cycle * spriteW, 0, spriteW, spriteH,
-    //destination rectangle
-                  0, 0, spriteW, spriteH);
-                  cycle = (cycle+1) % 8;
-  }, 120)
-})
+function branch(length, angle, scale){
+  cx.fillRect(0,0,1,length);
+  if(length < 8) return;
+  cx.save();
+  cx.translate(0, length);
+  cx.rotate(-angle);
+  branch(length * scale, angle, scale);
+  cx.rotate(2 * angle);
+  branch(length * scale, angle, scale);
+  cx.restore();
+}
+cx.translate(300, 0);
+branch(60, .5, 0.8);
